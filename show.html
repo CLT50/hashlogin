@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ user.full_name }}{% endblock %}}
+
+{% block content %}
+
+<div>
+
+  <div>
+
+    <h2>Feedback</h2>
+
+    <ul>
+      {% for feedback in user.feedback %}
+
+      <li>
+        <b>{{ feedback.title }}</b>
+        {{ feedback.content }}
+      </li>
+
+      <form>
+        {{form.hidden_tag()}}
+        <button 
+                formmethod="GET"
+                formaction="/feedback/{{ feedback.id }}/update">
+          Edit
+        </button>
+        {{% if session['user.id']==user.feedback %}}
+        <button 
+                formmethod="POST"
+                formaction="/feedback/{{ feedback.id }}/delete">
+          Delete
+        </button>
+      </form>
+
+      {% endfor %}
+    </ul>
+
+    <p>
+      <a href="/users/{{ user.username }}/feedback/new">
+        Post
+      </a>
+    </p>
+
+    <form>
+      <button 
+              formaction="/users/{{ user.username }}/delete"
+              formmethod="POST">
+        Delete User
+      </button>
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}
